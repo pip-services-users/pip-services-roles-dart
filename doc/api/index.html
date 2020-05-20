@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 0.30.3">
+  <meta name="description" content="pip_services_roles API docs, for the Dart programming language.">
+  <title>pip_services_roles - Dart API docs</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/pip-services-users/pip-services-roles-dart">pip_services_roles package</a></li>
+  </ol>
+  <div class="self-name">pip_services_roles</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="https://github.com/pip-services-users/pip-services-roles-dart">pip_services_roles package</a></li>
+    </ol>
+    
+    <h5 class="hidden-xs"><span class="package-name">pip_services_roles</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="pip_services_roles/pip_services_roles-library.html">pip_services_roles</a></li>
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1 id="img-srchttpsgithubcompip-servicespip-servicesrawmasterdesignlogopng-altpipservices-logo-stylemax-width30-br-roles-microservice"><img src="https://github.com/pip-services/pip-services/raw/master/design/Logo.png" alt="Pip.Services Logo" style="max-width:30%"> <br> Roles Microservice</h1>
+<p>This is a user roles microservice from Pip.Services library. 
+It provides basic role-based authorization mechanism for users. </p>
+<p>The microservice currently supports the following deployment options:</p>
+<ul>
+<li>Deployment platforms: Standalone Process, Seneca</li>
+<li>External APIs: HTTP/REST, Seneca</li>
+<li>Persistence: Flat Files, MongoDB</li>
+</ul>
+<p>This microservice has no dependencies on other microservices.</p>
+<p><a name="links"></a> Quick Links:</p>
+<ul>
+<li><a href="doc/Downloads.md">Download Links</a></li>
+<li><a href="doc/Development.md">Development Guide</a></li>
+<li><a href="doc/Configuration.md">Configuration Guide</a></li>
+<li><a href="doc/Deployment.md">Deployment Guide</a></li>
+<li>Client SDKs
+<ul>
+<li><a href="https://github.com/pip-services-users/pip-clients-roles-node">Node.js SDK</a></li>
+<li><a href="https://github.com/pip-services-users/pip-clients-roles-dart">Dart SDK</a></li>
+</ul>
+</li>
+<li>Communication Protocols
+<ul>
+<li><a href="doc/HttpProtocolV1.md">HTTP Version 1</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="contract">Contract</h2>
+<p>Logical contract of the microservice is presented below. For physical implementation (HTTP/REST),
+please, refer to documentation of the specific protocol.</p>
+<pre class="language-dart"><code class="language-dart">class UserRolesV1 implements IStringIdentifiable {
+  String id;
+  List&lt;String&gt; roles;
+  DateTime update_time;
+}
+
+abstract class IRolesV1 {
+  Future&lt;DataPage&lt;UserRolesV1&gt;&gt; getRolesByFilter(
+      String correlationId, FilterParams filter, PagingParams paging);
+
+  Future&lt;List&lt;String&gt;&gt; getRolesById(String correlationId, String userId);
+
+  Future&lt;List&lt;String&gt;&gt; setRoles(String correlationId, String userId, List&lt;String&gt; roles);
+
+  Future&lt;List&lt;String&gt;&gt; grantRoles(String correlationId, String userId, List&lt;String&gt; roles);
+
+  Future&lt;List&lt;String&gt;&gt; revokeRoles(String correlationId, String userId, List&lt;String&gt; roles);
+
+  Future&lt;bool&gt; authorize(String correlationId, String userId, List&lt;String&gt; roles);
+}
+</code></pre>
+<h2 id="download">Download</h2>
+<p>Right now the only way to get the microservice is to check it out directly from github repository</p>
+<pre class="language-bash"><code class="language-bash">git clone git@github.com:pip-services-users/pip-services-roles-dart.git
+</code></pre>
+<p>Pip.Service team is working to implement packaging and make stable releases available for your 
+as zip downloadable archieves.</p>
+<h2 id="run">Run</h2>
+<p>Add <strong>config.yaml</strong> file to the root of the microservice folder and set configuration parameters.</p>
+<p>Example of microservice configuration</p>
+<pre class="language-yaml"><code class="language-yaml">---
+# Container descriptor
+- descriptor: "pip-services:context-info:default:default:1.0"
+  name: "pip-services-roles"
+  description: "Roles microservice for pip-services"
+
+# Console logger
+- descriptor: "pip-services:logger:console:default:1.0"
+  level: "trace"
+
+# Performance counters that posts values to log
+- descriptor: "pip-services:counters:log:default:1.0"
+  level: "trace"
+
+{{#MEMORY_ENABLED}}
+# In-memory persistence. Use only for testing!
+- descriptor: "pip-services-roles:persistence:memory:default:1.0"
+{{/MEMORY_ENABLED}}
+
+{{#FILE_ENABLED}}
+# File persistence. Use it for testing of for simple standalone deployments
+- descriptor: "pip-services-roles:persistence:file:default:1.0"
+  path: {{FILE_PATH}}{{^FILE_PATH}}"./data/roles.json"{{/FILE_PATH}}
+{{/FILE_ENABLED}}
+
+{{#MONGO_ENABLED}}
+# MongoDB Persistence
+- descriptor: "pip-services-roles:persistence:mongodb:default:1.0"
+  collection: {{MONGO_COLLECTION}}{{^MONGO_COLLECTION}}roles{{/MONGO_COLLECTION}}
+  connection:
+    uri: {{{MONGO_SERVICE_URI}}}
+    host: {{{MONGO_SERVICE_HOST}}}{{^MONGO_SERVICE_HOST}}localhost{{/MONGO_SERVICE_HOST}}
+    port: {{MONGO_SERVICE_PORT}}{{^MONGO_SERVICE_PORT}}27017{{/MONGO_SERVICE_PORT}}
+    database: {{MONGO_DB}}{{#^MONGO_DB}}app{{/^MONGO_DB}}
+  credential:
+    username: {{MONGO_USER}}
+    password: {{MONGO_PASS}}
+{{/MONGO_ENABLED}}
+
+{{^MEMORY_ENABLED}}{{^FILE_ENABLED}}{{^MONGO_ENABLED}}
+# Default in-memory persistence
+- descriptor: "pip-services-roles:persistence:memory:default:1.0"
+{{/MONGO_ENABLED}}{{/FILE_ENABLED}}{{/MEMORY_ENABLED}}
+
+# Default controller
+- descriptor: "pip-services-roles:controller:default:default:1.0"
+
+# Common HTTP endpoint
+- descriptor: "pip-services:endpoint:http:default:1.0"
+  connection:
+    protocol: "http"
+    host: "0.0.0.0"
+    port: 8080
+
+# HTTP endpoint version 1.0
+- descriptor: "pip-services-roles:service:http:default:1.0"
+
+# Heartbeat service
+- descriptor: "pip-services:heartbeat-service:http:default:1.0"
+
+# Status service
+- descriptor: "pip-services:status-service:http:default:1.0"
+</code></pre>
+<p>For more information on the microservice configuration see <a href="doc/Configuration.md">Configuration Guide</a>.</p>
+<p>Start the microservice using the command:</p>
+<pre class="language-bash"><code class="language-bash">dart ./bin/run.dart
+</code></pre>
+<h2 id="use">Use</h2>
+<p>The easiest way to work with the microservice is to use client SDK. 
+The complete list of available client SDKs for different languages is listed in the <a href="#links">Quick Links</a></p>
+<p>If you use dart, then get references to the required libraries:</p>
+<ul>
+<li>Pip.Services3.Commons : <a href="https://github.com/pip-services3-dart/pip-services3-commons-dart">https://github.com/pip-services3-dart/pip-services3-commons-dart</a></li>
+<li>Pip.Services3.Rpc: 
+<a href="https://github.com/pip-services3-dart/pip-services3-rpc-dart">https://github.com/pip-services3-dart/pip-services3-rpc-dart</a></li>
+</ul>
+<p>Add <strong>pip-services3-commons-dart</strong>, <strong>pip-services3-rpc-dart</strong> and <strong>pip-services_roles</strong> packages</p>
+<pre class="language-dart"><code class="language-dart">import 'package:pip_services3_commons/pip_services3_commons.dart';
+import 'package:pip_services3_rpc/pip_services3_rpc.dart';
+
+import 'package:pip_services_roles/pip_services_roles.dart';
+
+</code></pre>
+<p>Define client configuration parameters that match the configuration of the microservice's external API</p>
+<pre class="language-dart"><code class="language-dart">// Client configuration
+var httpConfig = ConfigParams.fromTuples(
+	"connection.protocol", "http",
+	"connection.host", "localhost",
+	"connection.port", 8080
+);
+</code></pre>
+<p>Instantiate the client and open connection to the microservice</p>
+<pre class="language-dart"><code class="language-dart">// Create the client instance
+var client = RolesHttpClientV1(config);
+
+// Configure the client
+client.configure(httpConfig);
+
+// Connect to the microservice
+try{
+  await client.open(null)
+}catch() {
+  // Error handling...
+}       
+// Work with the microservice
+// ...
+</code></pre>
+<p>Now the client is ready to perform operations</p>
+<pre class="language-dart"><code class="language-dart">final ROLES = ['Role 1', 'Role 2', 'Role 3'];
+
+    // Set the roles
+    try {
+      var role = await client.setRoles('123', '1', ROLES);
+      // Do something with the returned roles...
+    } catch(err) {
+      // Error handling...     
+    }
+</code></pre>
+<pre class="language-dart"><code class="language-dart">// Get the roles by id
+try {
+var role = await client.getRolesById(
+    null,
+    '1');
+    // Do something with roles...
+
+    } catch(err) { // Error handling}
+</code></pre>
+<pre class="language-dart"><code class="language-dart">// Grant user a role
+try {
+var role = await client.grantRoles(
+    null,
+    '1',
+    ['admin']);
+    // Do something with roles...
+
+    } catch(err) { // Error handling}
+
+// Authorize user
+try {
+var role = await client.authorize(
+    null,
+    '1',
+    ['admin']);
+    // Do something with bool value(authorized or not authorized) ...
+
+    } catch(err) { // Error handling}    
+</code></pre>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>This microservice was created and currently maintained by</p>
+<ul>
+<li><strong>Sergey Seroukhov</strong>.</li>
+<li><strong>Nuzhnykh Egor</strong></li>
+</ul>
+      </section>
+      
+        <section class="summary">
+            <h2>Libraries</h2>
+          <dl>
+            <dt id="pip_services_roles">
+              <span class="name"><a href="pip_services_roles/pip_services_roles-library.html">pip_services_roles</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+          </dl>
+        </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    pip_services_roles
+      1.0.0
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>

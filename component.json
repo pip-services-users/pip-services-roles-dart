@@ -1,0 +1,6 @@
+{
+    "name":  "pip-services-roles",
+    "version":  "1.0.0",
+    "registry": "pipdevs",
+    "build": "0"
+}
